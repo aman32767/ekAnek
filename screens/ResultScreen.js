@@ -1,17 +1,36 @@
 import React from 'react';
-import {View,Text,StyleSheet,Image,FlatList} from 'react-native';
-import ProductItem from '../Components/ProductItem'
+import {View,Text,StyleSheet,Image,FlatList,Platform, Button} from 'react-native';
+import {HeaderButtons,Item} from 'react-navigation-header-buttons';
+import HeaderButton from '../Components/HeaderButton'
+import ProductItem from '../Components/ProductItem';
+
+
 
 class ResultScreen extends React.Component{
+
 
     constructor(props){
         super(props);
         this.state={
             pictures:[],
-            text:this.props.navigation.getParam('subreddit')
+            text:this.props.navigation.getParam('searched'),
+            grid:2,
+            key:1
         }
     }
+    static navigationOptions = ({ navigation }) => {
+        return {
 
+            headerTitle: 'Results For '+navigation.getParam('searched'),
+            headerRight: (<HeaderButtons HeaderButtonComponent={HeaderButton}>
+                <Item title="Cart" 
+            iconName={Platform.OS === 'android' ? 'md-grid' : 'ios-grid'}
+            onPress={(navigation.getParam('increaseCount'))}/>
+            
+            </HeaderButtons>)
+         
+        };
+      };
     componentDidMount(){
         fetch('https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=b5acf054ee662671ac5ff085e5087792&format=json&nojsoncallback=1&text='+this.state.text+'&extras=url_o')
         .then(function(response){
@@ -26,26 +45,34 @@ class ResultScreen extends React.Component{
             })
             this.setState({pictures:picArray})
         }.bind(this))
+        this.props.navigation.setParams({ increaseCount: this._increaseCount });
     }
+    _increaseCount = () => {
+        if(this.state.grid<=3)
+        {
+            this.setState({ grid: this.state.grid + 1 ,key:this.state.key+1});
+        }else{
+            this.setState({ grid: 2 ,key:1});
+        }
+        
+      };
     render(){
     //     const recived = this.props.navigation.getParam('subreddit')
-    
+        
         return(
-            <FlatList data={this.state.pictures} numColumns={2} keyExtractor={item => item} 
-        renderItem={itemData => <ProductItem a={2} image={itemData.item}
+            <FlatList data={this.state.pictures}
+            key={this.state.key} 
+            numColumns={this.state.grid} keyExtractor={item => item} 
+        renderItem={itemData => <ProductItem grid={this.state.grid} image={itemData.item}
         />} /> 
         // <FlatList data={this.state.pictures} keyExtractor={item => item.id} 
         // renderItem={itemData => <Text>{itemData.item}</Text>} /> 
         )
     }
+    
 }
 
- ResultScreen.navigationOptions = (navigationData) => {
-    const search = navigationData.navigation.getParam('subreddit');
-    return {
-        headerTitle: 'Results For '+search
-      };
-}
+
 // const ResultScreen = (props)=>{
 //     const recived = props.navigation.getParam('subreddit')
 //     console.log(recived)
@@ -65,3 +92,4 @@ const styles = StyleSheet.create({
 })
 
 export default ResultScreen
+

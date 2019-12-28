@@ -40,7 +40,7 @@ class Search extends React.Component {
     searchImage(e){
         if(this.state.text.length){
             this.props.navigation.navigate('Result', {
-                subreddit: this.state.text,
+                searched: this.state.text,
             });
         }else{
             Alert.alert(
@@ -60,13 +60,14 @@ class Search extends React.Component {
                 behavior="padding"
             >
 
+
                 <Image
                     source={require('../res/doogle.png')}
                     style={{
                         justifyContent: 'center',
                         alignItems: 'center',
                         width: '100%',
-                        height: 200,
+                        height: 180,
                     }}
                 />
 
