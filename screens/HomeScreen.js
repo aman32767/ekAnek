@@ -37,7 +37,7 @@ class Search extends React.Component {
         header : null
     };
 
-    searchReddit(e){
+    searchImage(e){
         if(this.state.text.length){
             this.props.navigation.navigate('Result', {
                 subreddit: this.state.text,
@@ -61,7 +61,7 @@ class Search extends React.Component {
             >
 
                 <Image
-                    source={require('../res/reddit.png')}
+                    source={require('../res/doogle.png')}
                     style={{
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -82,7 +82,7 @@ class Search extends React.Component {
                 <Button
                     title='Search'
                     buttonStyle={styles.button}
-                    onPress={this.searchReddit.bind(this)}
+                    onPress={this.searchImage.bind(this)}
                 />
 
             </KeyboardAvoidingView>
