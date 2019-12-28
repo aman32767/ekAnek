@@ -14,6 +14,7 @@ class ResultScreen extends React.Component{
         this.state={
             pictures:[],
             text:this.props.navigation.getParam('searched'),
+            page:1,
             grid:2,
             key:1
         }
@@ -32,7 +33,21 @@ class ResultScreen extends React.Component{
         };
       };
     componentDidMount(){
-        fetch('https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=b5acf054ee662671ac5ff085e5087792&format=json&nojsoncallback=1&text='+this.state.text+'&extras=url_o')
+        this.makeRemoteRequest()
+        this.props.navigation.setParams({ increaseCount: this._increaseCount });
+    }
+ 
+    handleLoadMore = () => {
+        this.setState({
+            page:this.state.page+1,
+        },
+        ()=>{
+            this.makeRemoteRequest();
+        }
+        )
+    }
+    makeRemoteRequest(){
+        fetch('https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=b5acf054ee662671ac5ff085e5087792&format=json&nojsoncallback=1&text='+this.state.text+'&page='+this.state.page+'&extras=url_o')
         .then(function(response){
             return response.json()
         })
@@ -43,10 +58,11 @@ class ResultScreen extends React.Component{
               srcPath
             )
             })
-            this.setState({pictures:picArray})
+            this.setState({pictures:[...this.state.pictures,...picArray]})
         }.bind(this))
-        this.props.navigation.setParams({ increaseCount: this._increaseCount });
     }
+
+
     _increaseCount = () => {
         if(this.state.grid<=3)
         {
@@ -59,12 +75,17 @@ class ResultScreen extends React.Component{
     render(){
     //     const recived = this.props.navigation.getParam('subreddit')
         
+    console.log(this.state.page)
         return(
             <FlatList data={this.state.pictures}
             key={this.state.key} 
             numColumns={this.state.grid} keyExtractor={item => item} 
-        renderItem={itemData => <ProductItem grid={this.state.grid} image={itemData.item}
-        />} /> 
+            renderItem={itemData => <ProductItem grid={this.state.grid} 
+            image={itemData.item}
+            />}
+            onEndReached={this.handleLoadMore}
+            onEndReachedThreshold={40} 
+        /> 
         // <FlatList data={this.state.pictures} keyExtractor={item => item.id} 
         // renderItem={itemData => <Text>{itemData.item}</Text>} /> 
         )
