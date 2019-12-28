@@ -31,13 +31,20 @@ class ResultScreen extends React.Component{
     //     const recived = this.props.navigation.getParam('subreddit')
     
         return(
-            <FlatList data={this.state.pictures} keyExtractor={item => item.id} 
-        renderItem={itemData => <ProductItem image={itemData.item}
+            <FlatList data={this.state.pictures} numColumns={2} keyExtractor={item => item} 
+        renderItem={itemData => <ProductItem a={2} image={itemData.item}
         />} /> 
         // <FlatList data={this.state.pictures} keyExtractor={item => item.id} 
         // renderItem={itemData => <Text>{itemData.item}</Text>} /> 
         )
     }
+}
+
+ ResultScreen.navigationOptions = (navigationData) => {
+    const search = navigationData.navigation.getParam('subreddit');
+    return {
+        headerTitle: 'Results For '+search
+      };
 }
 // const ResultScreen = (props)=>{
 //     const recived = props.navigation.getParam('subreddit')
