@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { YellowBox } from 'react-native';
 
 import Navigator from './Navigation/Navigator'
 export default function App() {
+  console.disableYellowBox = true;
   
  return (
      <Navigator />

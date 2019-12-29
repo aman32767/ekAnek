@@ -48,11 +48,10 @@ class Search extends React.Component {
                 'Invalid Input',
                 'Please Enter Something',
                 [
-                    {text: 'OK'}
+                    {text: 'OK', onPress: ()=>console.log('ok pressed') }
                 ]
             )
         }
-        this.setState({text:""})
     }
 
     render() {
