@@ -60,6 +60,9 @@ class ResultScreen extends React.Component{
             })
             this.setState({pictures:[...this.state.pictures,...picArray]})
         }.bind(this))
+        .catch(function(error) {
+            alert("oops,Something went wrong");   
+        });
     }
 
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import {View,Text,Image,StyleSheet,Dimensions} from 'react-native';
+import ChacheImage from '../ChacheImage';
 
 const ProductItem = (props) => {
     var {height, width} = Dimensions.get('window');
@@ -22,7 +23,7 @@ const ProductItem = (props) => {
             width:widthImage,
             margin:3
             }}>
-           <Image style={styles.image} source={{uri:props.image}} />   
+           <ChacheImage style={styles.image} uri={props.image} />   
         </View>
     )
 }

@@ -34,11 +34,12 @@ class Search extends React.Component {
     }
 
     static navigationOptions = {
-        header : null
+        header : null,
     };
 
     searchImage(e){
         if(this.state.text.length){
+            
             this.props.navigation.navigate('Result', {
                 searched: this.state.text,
             });
@@ -51,6 +52,7 @@ class Search extends React.Component {
                 ]
             )
         }
+        this.setState({text:""})
     }
 
     render() {
@@ -66,8 +68,8 @@ class Search extends React.Component {
                     style={{
                         justifyContent: 'center',
                         alignItems: 'center',
-                        width: '100%',
-                        height: 180,
+                        width: '80%',
+                        height: 155,
                     }}
                 />
 
