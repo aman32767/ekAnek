@@ -47,7 +47,7 @@ class ResultScreen extends React.Component{
         )
     }
     makeRemoteRequest(){
-        fetch('https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=b5acf054ee662671ac5ff085e5087792&format=json&nojsoncallback=1&text='+this.state.text+'&page='+this.state.page+'&extras=url_o')
+        fetch('https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=&format=json&nojsoncallback=1&text='+this.state.text+'&page='+this.state.page+'&extras=url_o')
         .then(function(response){
             return response.json()
         })
